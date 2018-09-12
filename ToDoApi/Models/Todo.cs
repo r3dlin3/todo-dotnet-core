@@ -14,14 +14,11 @@ namespace ToDoApi.Models
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public long Id { get; set; }
 
+        [Required]
+        [StringLength(NameLimit)]
+        [RegularExpression(NameValidatePattern)]
         public string Name { get; set; }
         public List<TodoItem> TodoItems { get; set; }
 
-        public bool CheckValidName()
-        {
-            return !string.IsNullOrWhiteSpace(Name)
-                   && Name.Length <= NameLimit
-                   && new Regex(NameValidatePattern).IsMatch(Name);
-        }
     }
 }

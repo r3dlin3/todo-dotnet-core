@@ -6,6 +6,7 @@ using ToDoApi.Repository;
 namespace ToDoApi.Controllers
 {
     [Route("todos")]
+    [ApiController]
     public class TodoController : Controller
     {
         private readonly ITodoRepository _todoRepository;
@@ -35,11 +36,6 @@ namespace ToDoApi.Controllers
         [HttpPost]
         public IActionResult Create([FromBody] Todo todo)
         {
-            if (todo == null || !todo.CheckValidName())
-            {
-                return BadRequest();
-            }
-
             if (todo.TodoItems == null)
             {
                 todo.TodoItems = new List<TodoItem>();
@@ -65,11 +61,7 @@ namespace ToDoApi.Controllers
         [HttpPut("{id}")]
         public IActionResult Update(long id, [FromBody] Todo payload)
         {
-            if (payload == null || !payload.CheckValidName())
-            {
-                return BadRequest();
-            }
-
+            
             var todo = _todoRepository.Find(id);
             if (todo == null)
             {
