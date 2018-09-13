@@ -7,7 +7,7 @@ namespace ToDoApi.Controllers
 {
     [Route("todos")]
     [ApiController]
-    public class TodoController : Controller
+    public class TodoController : ControllerBase
     {
         private readonly ITodoRepository _todoRepository;
 
@@ -88,11 +88,6 @@ namespace ToDoApi.Controllers
         [HttpPost("{todoId}")]
         public IActionResult AddItem(long todoId, [FromBody] TodoItem item)
         {
-            if (item == null || !item.CheckValidName())
-            {
-                return BadRequest();
-            }
-
             var todo = _todoRepository.Find(todoId);
             if (todo == null)
             {
@@ -122,11 +117,6 @@ namespace ToDoApi.Controllers
         [HttpPut("items/{id}")]
         public IActionResult UpdateItem(long id, [FromBody] TodoItem payload)
         {
-            if (payload == null || !payload.CheckValidName())
-            {
-                return BadRequest();
-            }
-
             var item = _todoRepository.FindItem(id);
             if (item == null)
             {
