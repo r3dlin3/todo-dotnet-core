@@ -1,4 +1,5 @@
 using ToDoApi.Models;
+using ToDoApi.Tests.UnitTests.Services;
 using Xunit;
 
 namespace ToDoApi.Tests.UnitTests.Models
@@ -15,7 +16,7 @@ namespace ToDoApi.Tests.UnitTests.Models
         [Fact]
         public void ReturnFalseGivenNameNull()
         {
-            var result = _todoItem.CheckValidName();
+            var result = DataAnnotationsValidator.TryValidate(_todoItem);
             Assert.False(result, "Name should not be null");
         }
 
@@ -23,7 +24,7 @@ namespace ToDoApi.Tests.UnitTests.Models
         public void ReturnFalseGivenNameEmpty()
         {
             _todoItem.Name = "";
-            var result = _todoItem.CheckValidName();
+            var result = DataAnnotationsValidator.TryValidate(_todoItem);
             Assert.False(result, "Name should not be empty");
         }
 
@@ -31,7 +32,7 @@ namespace ToDoApi.Tests.UnitTests.Models
         public void ReturnFalseGivenNameWhitSpace()
         {
             _todoItem.Name = "    ";
-            var result = _todoItem.CheckValidName();
+            var result = DataAnnotationsValidator.TryValidate(_todoItem);
             Assert.False(result, "Name should not be whit space");
         }
 
@@ -39,7 +40,7 @@ namespace ToDoApi.Tests.UnitTests.Models
         public void ReturnFalseGivenNameLengthMoreThan10()
         {
             _todoItem.Name = ".Net Core Unit Test";
-            var result = _todoItem.CheckValidName();
+            var result = DataAnnotationsValidator.TryValidate(_todoItem);
             Assert.False(result, "Name should not be more than 10");
         }
 
@@ -47,7 +48,7 @@ namespace ToDoApi.Tests.UnitTests.Models
         public void ReturnFalseGivenNameNotEn()
         {
             _todoItem.Name = ".เนต คอ";
-            var result = _todoItem.CheckValidName();
+            var result = DataAnnotationsValidator.TryValidate(_todoItem);
             Assert.False(result, "Name should be English");
         }
 
@@ -55,7 +56,7 @@ namespace ToDoApi.Tests.UnitTests.Models
         public void ReturnTrueGivenNameEnAndLessThan10()
         {
             _todoItem.Name = "Teera Nai";
-            var result = _todoItem.CheckValidName();
+            var result = DataAnnotationsValidator.TryValidate(_todoItem);
             Assert.True(result, "Name should be English and less than 10");
         }
     }

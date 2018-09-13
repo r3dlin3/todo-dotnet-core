@@ -4,19 +4,20 @@ using System.Net;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Testing;
 using Newtonsoft.Json;
 using ToDoApi.Models;
 using Xunit;
 
 namespace ToDoApi.Tests.IntegrationTests
 {
-    public class TodoControllerTests : IClassFixture<TestFixture<Startup>>
+    public class TodoControllerTests : IClassFixture<WebApplicationFactory<Startup>>
     {
         private readonly HttpClient _client;
 
-        public TodoControllerTests(TestFixture<Startup> fixture)
+        public TodoControllerTests(WebApplicationFactory<Startup> fixture)
         {
-            _client = fixture.Client;
+            _client = fixture.CreateClient();
         }
 
         [Fact]
@@ -31,7 +32,7 @@ namespace ToDoApi.Tests.IntegrationTests
             // Assert
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            Assert.True(responseString.Contains(testSession.Name));
+            Assert.Contains(responseString,testSession.Name);
         }
 
         [Fact]
@@ -79,7 +80,7 @@ namespace ToDoApi.Tests.IntegrationTests
             var credtedTodo = ConvertStringToObject<Todo>(returnedSession);
             Assert.Equal("Test Todo", credtedTodo.Name);
             Assert.Equal(2, credtedTodo.TodoItems.Count);
-            Assert.True(credtedTodo.TodoItems.Any(i => i.TodoId == credtedTodo.Id));
+            Assert.Contains(credtedTodo.TodoItems, i => i.TodoId == credtedTodo.Id);
         }
 
         private static StringContent ConvertObjectToStringContent(object obj)

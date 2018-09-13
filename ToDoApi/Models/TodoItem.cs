@@ -15,14 +15,10 @@ namespace ToDoApi.Models
 
         public long TodoId { get; set; }
 
+        [Required]
+        [StringLength(NameLimit)]
+        [RegularExpression(NameValidatePattern)]
         public string Name { get; set; }
         public bool IsComplete { get; set; }
-
-        public bool CheckValidName()
-        {
-            return !string.IsNullOrWhiteSpace(Name)
-                   && Name.Length <= NameLimit
-                   && new Regex(NameValidatePattern).IsMatch(Name);
-        }
     }
 }

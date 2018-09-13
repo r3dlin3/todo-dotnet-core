@@ -77,7 +77,7 @@ namespace ToDoApi.Tests.UnitTests.Controllers
             // Assert
             var okResult = Assert.IsType<CreatedAtRouteResult>(result);
             var returnTodo = Assert.IsType<Todo>(okResult.Value);
-            Assert.Equal(0, returnTodo.TodoItems.Count);
+            Assert.Empty(returnTodo.TodoItems);
             Assert.Equal(testName, returnTodo.Name);
         }
 
