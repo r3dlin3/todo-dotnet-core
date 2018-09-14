@@ -29,35 +29,6 @@ namespace ToDoApi.Tests.UnitTests.Controllers
             Assert.Equal("Test One", result.FirstOrDefault().Name);
         }
 
-        [Fact]
-        public void Create_ReturnsBadRequest_GivenInvalidName()
-        {
-            // Arrange & Act
-            var mockRepo = new Mock<ITodoRepository>();
-            var controller = new TodoController(mockRepo.Object);
-            controller.ModelState.AddModelError("error", "some error");
-
-            // Act
-            var result = controller.Create(todo: new Todo {Name = "ไม่ถูกไม่ควร"});
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        [Fact]
-        public void Create_ReturnsBadRequest_GivenNullModel()
-        {
-            // Arrange & Act
-            var mockRepo = new Mock<ITodoRepository>();
-            var controller = new TodoController(mockRepo.Object);
-            controller.ModelState.AddModelError("error", "some error");
-
-            // Act
-            var result = controller.Create(todo: null);
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
 
         [Fact]
         public void Create_ReturnsCreatedTodo_GivenCorrectInputs()
@@ -81,37 +52,8 @@ namespace ToDoApi.Tests.UnitTests.Controllers
             Assert.Equal(testName, returnTodo.Name);
         }
 
-        [Fact]
-        public void Update_ReturnsBadRequest_GivenNullModel()
-        {
-            // Arrange & Act
-            const int testTodoId = 123;
-            var mockRepo = new Mock<ITodoRepository>();
-            var controller = new TodoController(mockRepo.Object);
-            controller.ModelState.AddModelError("error", "some error");
+        
 
-            // Act
-            var result = controller.Update(testTodoId, payload: null);
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
-
-        [Fact]
-        public void Update_ReturnsBadRequest_GivenInvalidName()
-        {
-            // Arrange & Act
-            const int testTodoId = 123;
-            var mockRepo = new Mock<ITodoRepository>();
-            var controller = new TodoController(mockRepo.Object);
-            controller.ModelState.AddModelError("error", "some error");
-
-            // Act
-            var result = controller.Update(testTodoId, payload: new Todo {Name = "ไม่ถูกไม่ควร"});
-
-            // Assert
-            Assert.IsType<BadRequestResult>(result);
-        }
 
         [Fact]
         public void Update_ReturnsHttpNotFound_ForInvalidId()

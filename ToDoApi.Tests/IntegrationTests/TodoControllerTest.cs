@@ -32,7 +32,7 @@ namespace ToDoApi.Tests.IntegrationTests
             // Assert
             response.EnsureSuccessStatusCode();
             var responseString = await response.Content.ReadAsStringAsync();
-            Assert.Contains(responseString,testSession.Name);
+            Assert.Contains(testSession.Name, responseString);
         }
 
         [Fact]

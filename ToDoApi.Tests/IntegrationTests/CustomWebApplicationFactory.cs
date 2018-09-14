@@ -10,7 +10,7 @@ using ToDoApi.Dao;
 namespace ToDoApi.Tests.IntegrationTests
 {
     #region snippet1
-    public class CustomWebApplicationFactory<TStartup> 
+    public class CustomWebApplicationFactory<TStartup>
         : WebApplicationFactory<ToDoApi.Startup>
     {
         protected override void ConfigureWebHost(IWebHostBuilder builder)
@@ -22,23 +22,19 @@ namespace ToDoApi.Tests.IntegrationTests
                     .AddEntityFrameworkInMemoryDatabase()
                     .BuildServiceProvider();
 
-                services.AddMvc()
-                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
-
-                services.Configure<ApiBehaviorOptions>(options =>
-                {
-                    options.SuppressInferBindingSourcesForParameters = true;
-                });
                 // Add a database context (ApplicationDbContext) using an in-memory 
                 // database for testing.
-                services.AddDbContext<TodoContext>(options => 
+                services.AddDbContext<TodoContext>(options =>
                 {
-                    options.UseInMemoryDatabase("InMemoryDbForTesting");
+                    options.UseInMemoryDatabase("ToDos");
                     options.UseInternalServiceProvider(serviceProvider);
                 });
 
                 // Build the service provider.
                 var sp = services.BuildServiceProvider();
+                
+                services.AddMvc()
+                    .SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
 
                 // Create a scope to obtain a reference to the database
                 // context (ApplicationDbContext).
